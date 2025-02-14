@@ -44,6 +44,13 @@ export class Game extends Scene
 
         this.cursors = this.input.keyboard.createCursorKeys();
 
+        //Score
+        this.score = 0;
+        this.scoreText = this.add.text(5,5, "Score: " + this.score, {
+            fontSize: "32px",
+            fill: "#000"
+        });
+
     }
 
     update ()
@@ -71,14 +78,12 @@ export class Game extends Scene
     }
 
     handleBallPaddleCollision() {
-        console.log(this.ballSpeed, "pre-ballSpeed");
-        console.log(this.ball.body.velocity, 'pre-velocity')
         this.ballSpeed += 10;
         const currentVelocity = this.ball.body.velocity;
         const currentAngle = Math.atan2(currentVelocity.y, currentVelocity.x);
         this.ball.setVelocity(this.ballSpeed * Math.cos(currentAngle), this.ballSpeed * Math.sin(currentAngle));
-        console.log(this.ballSpeed, "post-ballSpeed");
-        console.log(this.ball.body.velocity, 'post-velocity')
+        this.score += 10;
+        this.scoreText.setText("Score: " + this.score);
     }
 
     handleLevelUp
