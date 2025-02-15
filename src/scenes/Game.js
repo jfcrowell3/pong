@@ -89,15 +89,13 @@ export class Game extends Scene
     handleLevelUp
 
     gameOver() {
-        // Pause physics and show game over message
         this.physics.pause();
         const { width, height } = this.sys.game.config;
 
         const redOverlay = this.add.graphics();
         redOverlay.fillStyle(0xff0000, 0.5);  // red with 50% opacity
-        redOverlay.fillRect(0, 0, width, height);
+        redOverlay.fillRect(0, 0, width, height); // fill screen
 
-        // Optionally, you can tween the alpha to have a fade-in effect:
         redOverlay.alpha = 0;
         this.tweens.add({
             targets: redOverlay,
@@ -106,9 +104,26 @@ export class Game extends Scene
             ease: 'Linear'
         });
 
-        this.add.text(width / 2, height / 2, 'GAME OVER', {
+        this.add.text(width / 2, height / 2 - 100, 'GAME OVER', {
             fontSize: '64px',
             fill: '#000'
         }).setOrigin(0.5);
+
+        const playAgainButton = this.add.text(height / 2, width / 2 + 50, 'Play Again', {
+            fontSize: '32px',
+            fill: '#fff',
+            backgroundColor: '#000',
+            padding: { x: 10, y: 5 }
+        }).setOrigin().setInteractive();
+
+        playAgainButton.on('pointerover', () => {
+            playAgainButton.setStyle({ fill: '#ff0' });
+        });
+        playAgainButton.on('pointerout', () => {
+            playAgainButton.setStyle({ fill: '#fff' });
+        });
+        playAgainButton.on('pointerdown', () => {
+            this.scene.restart();
+        })
     }
 }
