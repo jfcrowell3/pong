@@ -1,4 +1,5 @@
 import { Game as MainGame } from './scenes/Game';
+import { GameOver } from './scenes/GameOver.js';
 import { AUTO, Scale,Game } from 'phaser';
 
 //  Find out more information about the Game Config at:
@@ -21,7 +22,8 @@ const config = {
         }
     },
     scene: [
-        MainGame
+        MainGame,
+        GameOver
     ]
 };
 

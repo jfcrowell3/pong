@@ -20,7 +20,7 @@ export class Game extends Scene
     {
         const { width, height } = this.sys.game.config
 
-        this.add.tileSprite(0, 0, width, height, 'background').setOrigin(0, 0);
+        this.add.tileSprite(0, 0, width, height, 'background').setOrigin(0);
 
         // Disable collision on the bottom; left, right, and top still collide.
         this.physics.world.setBoundsCollision(true, true, true, false);
@@ -72,7 +72,7 @@ export class Game extends Scene
         }
 
         if (this.ball.y > this.sys.game.config.height) {
-            this.gameOver();
+            this.scene.start('GameOver');
         }
 
     }
@@ -84,46 +84,5 @@ export class Game extends Scene
         this.ball.setVelocity(this.ballSpeed * Math.cos(currentAngle), this.ballSpeed * Math.sin(currentAngle));
         this.score += 10;
         this.scoreText.setText("Score: " + this.score);
-    }
-
-    handleLevelUp
-
-    gameOver() {
-        this.physics.pause();
-        const { width, height } = this.sys.game.config;
-
-        const redOverlay = this.add.graphics();
-        redOverlay.fillStyle(0xff0000, 0.5);  // red with 50% opacity
-        redOverlay.fillRect(0, 0, width, height); // fill screen
-
-        redOverlay.alpha = 0;
-        this.tweens.add({
-            targets: redOverlay,
-            alpha: 1,
-            duration: 500,
-            ease: 'Linear'
-        });
-
-        this.add.text(width / 2, height / 2 - 100, 'GAME OVER', {
-            fontSize: '64px',
-            fill: '#000'
-        }).setOrigin(0.5);
-
-        const playAgainButton = this.add.text(height / 2, width / 2 + 50, 'Play Again', {
-            fontSize: '32px',
-            fill: '#fff',
-            backgroundColor: '#000',
-            padding: { x: 10, y: 5 }
-        }).setOrigin().setInteractive();
-
-        playAgainButton.on('pointerover', () => {
-            playAgainButton.setStyle({ fill: '#ff0' });
-        });
-        playAgainButton.on('pointerout', () => {
-            playAgainButton.setStyle({ fill: '#fff' });
-        });
-        playAgainButton.on('pointerdown', () => {
-            this.scene.restart();
-        })
     }
 }
