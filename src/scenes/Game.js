@@ -11,9 +11,9 @@ export class Game extends Scene
     {
         this.load.setPath('assets');
         
-        this.load.image('background', 'background.png');
-        this.load.image('ball', 'ball.png');
-        this.load.image('paddle', 'paddle.png');
+        this.load.image('background', 'poly-bg.png');
+        this.load.image('ball', 'blue-pink-sphere.png');
+        this.load.image('paddle', 'paddle-nicole.png');
     }
 
     create ()
@@ -21,11 +21,12 @@ export class Game extends Scene
         const { width, height } = this.sys.game.config
 
         this.add.tileSprite(0, 0, width, height, 'background').setOrigin(0);
+        // this.add.image(0, 0, 'background');
 
         // Disable collision on the bottom; left, right, and top still collide.
         this.physics.world.setBoundsCollision(true, true, true, false);
 
-        this.paddle = this.physics.add.image(width/2, height*.85, 'paddle').setScale(4,2);
+        this.paddle = this.physics.add.image(width/2, height*.85, 'paddle');
         this.paddle.body.allowGravity = false;
         this.paddle.setImmovable(true);
         this.paddle.setCollideWorldBounds(true);
@@ -36,7 +37,7 @@ export class Game extends Scene
         let xVelocity = this.ballSpeed * Math.cos(randomAngle);
         let yVelocity = this.ballSpeed * Math.sin(randomAngle);
 
-        this.ball = this.physics.add.sprite(randomX,0, 'ball').setScale(2, 2).setBounce(1);
+        this.ball = this.physics.add.sprite(randomX,0, 'ball').setScale(0.02).setBounce(1);
         this.ball.setCollideWorldBounds();
         this.ball.setVelocity(xVelocity, yVelocity);
 
@@ -56,9 +57,9 @@ export class Game extends Scene
     update ()
     {
         if (this.cursors.left.isDown) {
-            this.paddle.setVelocityX(-300);
+            this.paddle.setVelocityX(-400);
         } else if (this.cursors.right.isDown) {
-            this.paddle.setVelocityX(300);
+            this.paddle.setVelocityX(400);
         }
         // If no keyboard input, check for pointer (mouse/touch) input
         else if (this.input.activePointer.isDown) {
